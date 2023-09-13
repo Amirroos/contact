@@ -1,5 +1,5 @@
 <?php
-
+// show with id 
 $servername = "mysql";
 $username = "root";
 $password = "123456";
@@ -12,35 +12,38 @@ header('Content-Type: application/json');
 try {
         $conn = new PDO("mysql:host=$servername;dbname=contact", $username, $password);                        
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-            $queryGetname = "SELECT name FROM contact WHERE id = :nameid";
-                $stmtGetname = $conn->prepare($queryGetname);
-    
-        $nameid= 1; 
-        $stmtGetname->bindParam(':nameid', $nameid, PDO::PARAM_INT);
-            $stmtGetname->execute();
-
-        $result = $stmtGetname->fetch(PDO::FETCH_ASSOC);
-
-            if ($result) {
+// *********************************************************************************************************
+                $tableName = 'contact'; 
+                $searchUsername = $data->name; 
                 
-                $name = $result['name'];
-                $newData = "mothernumber"; 
+                $query = "SELECT * FROM $tableName WHERE name = :searchUsername";
+                
+                $stmt = $conn->prepare($query);
+                $stmt->bindParam(':searchUsername', $searchUsername, PDO::PARAM_STR);
 
+                $stmt->execute();
 
-                $queryInsertData = "INSERT INTO moreinfo (name, data) VALUES (:name, :data)";
-                $stmtInsertData = $conn->prepare($queryInsertData);
-                echo "slm";
-        
-                $stmtInsertData->bindParam(':name', $username, PDO::PARAM_STR);
-                $stmtInsertData->bindParam(':data', $newData, PDO::PARAM_STR);
-                    $stmtInsertData->execute();
-        
-        echo "اطلاعات با موفقیت به جدول دیگر اضافه شد.";
-    } else {
-        echo "نام کاربری با این ایدی وجود ندارد.";
-    }
-} catch (PDOException $e) {
-    echo "خطا: " . $e->getMessage();
-}
-?>
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+// *********************************************************************************************************    
+            $id = $user['id'];
+            $sql = "INSERT INTO moreinfo (userid , fildname, value)
+            
+            VALUES ( '$id' , '$data->fildname' , '$data->value')";
+              $conn->exec($sql);
+// *********************************************************************************************************
+          $last_id = $conn->lastInsertId();
+          $JSON = array(
+            'id' => $last_id,
+            'userid' => $id,
+            'name'=> $data->name,
+            'fildname' => $data->fildname,
+            'value' => $data->value
+          );
+    
+
+          echo json_encode($JSON,);
+
+      } catch(PDOException $e) {
+  
+        echo "Connection failed: " . $e->getMessage();
+      }
