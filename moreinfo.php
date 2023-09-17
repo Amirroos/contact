@@ -26,15 +26,15 @@ try {
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 // *********************************************************************************************************    
             $id = $user['id'];
-            $sql = "INSERT INTO moreinfo (userid , fildname, value)
+            $sql = "INSERT INTO moreinfo (id , fildname, value)
             
             VALUES ( '$id' , '$data->fildname' , '$data->value')";
               $conn->exec($sql);
 // *********************************************************************************************************
           $last_id = $conn->lastInsertId();
           $JSON = array(
-            'id' => $last_id,
-            'userid' => $id,
+            'userid' => $last_id,
+            'id' => $id,
             'name'=> $data->name,
             'fildname' => $data->fildname,
             'value' => $data->value

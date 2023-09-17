@@ -48,7 +48,7 @@ try {
                 
                 $searchUsername = $id; 
                 
-                $query = "SELECT * FROM $tableName WHERE userid = :searchUsername";
+                $query = "SELECT * FROM $tableName WHERE id = :searchUsername";
                 
                 $stmt = $conn->prepare($query);
                 

@@ -23,10 +23,13 @@
             // $sql = "UPDATE car SET pricce='$data->price' WHERE id = '$data->id'";
             // }else
 
-            $x1 = $data->model;
-            $x2 = $data->brand;
-            $x3 = $data->year;
-            $x4 = $data->price;
+            $x1 = $data->name;
+            $x2 = $data->phone;
+            $x3 = $data->address;
+            $x4 = $data->homenumber;
+            $x6 = $data->postcode;
+            $x7 = $data->fildname;
+            $x8 = $data->value;
             $x5 = $data->id;
 
             if ($x5 == NULL){
@@ -41,7 +44,7 @@
             }
             if ($x5!= NULL){
                 $id = $x5;
-                $query = "SELECT * FROM car WHERE id = :id";
+                $query = "SELECT * FROM contact WHERE id = :id";
                 $stmt = $conn->prepare($query);
                 $stmt->bindParam(':id', $id, PDO::PARAM_INT);
                 $stmt->execute();
@@ -58,7 +61,7 @@
             if ($x1 != NULL )
             {
                
-                $sql = "UPDATE car SET model='$data->model' WHERE id = '$data->id'";
+                $sql = "UPDATE contact SET name='$data->name' WHERE id = '$data->id'";
                 $stmt = $conn->prepare($sql);
                 $stmt->execute();
                 $JSON = array(
@@ -69,7 +72,7 @@
             if($x2 != NULL)
             {
                 
-                $sql = "UPDATE car SET brand='$data->brand' WHERE id = '$data->id'";
+                $sql = "UPDATE contact SET phone='$data->phone' WHERE id = '$data->id'";
                 $stmt = $conn->prepare($sql);
                 $stmt->execute();
                 $JSON = array(
@@ -80,7 +83,7 @@
             if($x3 != NULL)
             {
                 
-                $sql = "UPDATE car SET year='$data->year' WHERE id = '$data->id'";
+                $sql = "UPDATE contact SET address='$data->address' WHERE id = '$data->id'";
                 $stmt = $conn->prepare($sql);
                 $stmt->execute();
                 
@@ -92,7 +95,7 @@
             if($x4 != NULL)
             {
                 
-                $sql = "UPDATE car SET pricce='$data->price' WHERE id = '$data->id'";
+                $sql = "UPDATE contact SET homenumber='$data->homenumber' WHERE id = '$data->id'";
                 $stmt = $conn->prepare($sql);
                 $stmt->execute();
 
@@ -101,8 +104,29 @@
                 );
             }
 
+            if($x6 != NULL)
+            {
+                
+                $sql = "UPDATE contact SET postcode='$data->postcode' WHERE id = '$data->id'";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute();
 
-           
+                $JSON = array(
+                    'status' => true 
+                );
+            }
+// ************************************************************************************************************
+            if($x7 != NULL)
+            {
+                
+                $sql = "UPDATE moreinfo SET value='$data->value' WHERE fildname = '$data->fildname'AND id = '$data->id'";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute();
+
+                $JSON = array(
+                    'status' => true 
+                );
+            }
 
 
                 
